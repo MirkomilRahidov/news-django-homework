@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="uz">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kategoriya Yangiliklari</title>
+    <link rel="stylesheet" href="static/css/style.css" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f9f9f9;
+      }
+
+      header {
+        background: #007bff;
+        color: white;
+        text-align: center;
+        padding: 15px;
+        font-size: 24px;
+      }
+
+      #contentSection {
+        width: 80%;
+        margin: 20px auto;
+        display: flex;
+      }
+
+      .left_content {
+        width: 65%;
+      }
+
+      .right_content {
+        width: 30%;
+        margin-left: 5%;
+      }
+
+      .spost_nav {
+        list-style: none;
+        padding: 0;
+      }
+
+      .spost_nav li {
+        display: flex;
+        margin-bottom: 15px;
+        background: white;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .media img {
+        width: 100px;
+        height: 70px;
+        margin-right: 10px;
+        border-radius: 5px;
+      }
+
+      .catg_title {
+        font-weight: bold;
+        text-decoration: none;
+        color: #333;
+      }
+
+      .catg_title:hover {
+        color: #007bff;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>{{ category.name }} Yangiliklari</h1>
+      <a
+        href="{% url 'home' %}"
+        style="
+          display: inline-block;
+          margin-top: 10px;
+          background: white;
+          color: #007bff;
+          padding: 8px 15px;
+          text-decoration: none;
+          border-radius: 5px;
+          font-weight: bold;
+          border: 1px solid #007bff;
+        "
+      >
+        ⬅ Homega qaytish
+      </a>
+    </header>
+
+    <section id="contentSection">
+      <div class="row">
+        <!-- Kategoriya yangiliklari -->
+        <div class="col-lg-8 col-md-8 col-sm-8">
+          <div class="left_content">
+            <div class="single_post_content">
+              <h2><span>{{ category.name }} Yangiliklari</span></h2>
+              <ul class="spost_nav">
+                {% for news in category_news %}
+                <li>
+                  <div class="media">
+                    <a
+                      href="{% url 'news_detail' news.id %}"
+                      class="media-left"
+                    >
+                      <img src="{{ news.image.url }}" alt="{{ news.title }}" />
+                    </a>
+                    <div class="media-body">
+                      <a
+                        href="{% url 'news_detail' news.id %}"
+                        class="catg_title"
+                        >{{ news.title }}</a
+                      >
+                      <p>{{ news.short_description }}</p>
+                    </div>
+                  </div>
+                </li>
+                {% empty %}
+                <p>Bu kategoriyada hali yangiliklar mavjud emas.</p>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-4">
+          <aside class="right_content">
+            <div class="single_sidebar">
+              <h2><span>Ommabop Yangiliklar</span></h2>
+              <ul class="spost_nav">
+                {% for post in popular_posts %}
+                <li>
+                  <div class="media">
+                    <a
+                      href="{% url 'news_detail' post.id %}"
+                      class="media-left"
+                    >
+                      <img src="{{ post.image.url }}" alt="{{ post.title }}" />
+                    </a>
+                    <div class="media-body">
+                      <a
+                        href="{% url 'news_detail' post.id %}"
+                        class="catg_title"
+                        >{{ post.title }}</a
+                      >
+                    </div>
+                  </div>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
