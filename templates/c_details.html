@@ -14,26 +14,60 @@
       }
 
       header {
-        background: #007bff;
+        background: linear-gradient(to right, #2a2929, #000);
         color: white;
         text-align: center;
-        padding: 15px;
-        font-size: 24px;
+        padding: 20px;
+        font-size: 26px;
+        font-weight: bold;
+      }
+
+      header a {
+        display: inline-block;
+        margin-top: 10px;
+        background: white;
+        color: black;
+        padding: 8px 15px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: 0.3s;
+      }
+
+      header a:hover {
+        background: #007bff;
+        color: white;
       }
 
       #contentSection {
-        width: 80%;
-        margin: 20px auto;
+        width: 85%;
+        margin: 30px auto;
         display: flex;
+        gap: 30px;
+        flex-wrap: wrap;
       }
 
       .left_content {
         width: 65%;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       }
 
       .right_content {
         width: 30%;
-        margin-left: 5%;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 span {
+        background: black;
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
       }
 
       .spost_nav {
@@ -66,93 +100,85 @@
       .catg_title:hover {
         color: #007bff;
       }
+
+      @media (max-width: 1024px) {
+        #contentSection {
+          flex-direction: column;
+          width: 95%;
+        }
+
+        .left_content,
+        .right_content {
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .spost_nav li {
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+        }
+
+        .media img {
+          margin: 0 auto 10px;
+        }
+      }
     </style>
   </head>
   <body>
     <header>
       <h1>{{ category.name }} Yangiliklari</h1>
-      <a
-        href="{% url 'home' %}"
-        style="
-          display: inline-block;
-          margin-top: 10px;
-          background: white;
-          color: #007bff;
-          padding: 8px 15px;
-          text-decoration: none;
-          border-radius: 5px;
-          font-weight: bold;
-          border: 1px solid #007bff;
-        "
-      >
-        ⬅ Homega qaytish
-      </a>
+      <a href="{% url 'home' %}">⬅ Homega qaytish</a>
     </header>
 
     <section id="contentSection">
-      <div class="row">
-        <!-- Kategoriya yangiliklari -->
-        <div class="col-lg-8 col-md-8 col-sm-8">
-          <div class="left_content">
-            <div class="single_post_content">
-              <h2><span>{{ category.name }} Yangiliklari</span></h2>
-              <ul class="spost_nav">
-                {% for news in category_news %}
-                <li>
-                  <div class="media">
-                    <a
-                      href="{% url 'news_detail' news.id %}"
-                      class="media-left"
-                    >
-                      <img src="{{ news.image.url }}" alt="{{ news.title }}" />
-                    </a>
-                    <div class="media-body">
-                      <a
-                        href="{% url 'news_detail' news.id %}"
-                        class="catg_title"
-                        >{{ news.title }}</a
-                      >
-                      <p>{{ news.short_description }}</p>
-                    </div>
-                  </div>
-                </li>
-                {% empty %}
-                <p>Bu kategoriyada hali yangiliklar mavjud emas.</p>
-                {% endfor %}
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-4 col-sm-4">
-          <aside class="right_content">
-            <div class="single_sidebar">
-              <h2><span>Ommabop Yangiliklar</span></h2>
-              <ul class="spost_nav">
-                {% for post in popular_posts %}
-                <li>
-                  <div class="media">
-                    <a
-                      href="{% url 'news_detail' post.id %}"
-                      class="media-left"
-                    >
-                      <img src="{{ post.image.url }}" alt="{{ post.title }}" />
-                    </a>
-                    <div class="media-body">
-                      <a
-                        href="{% url 'news_detail' post.id %}"
-                        class="catg_title"
-                        >{{ post.title }}</a
-                      >
-                    </div>
-                  </div>
-                </li>
-                {% endfor %}
-              </ul>
-            </div>
-          </aside>
+      <div class="left_content">
+        <div class="single_post_content">
+          <h2><span>{{ category.name }} Yangiliklari</span></h2>
+          <ul class="spost_nav">
+            {% for news in category_news %}
+            <li>
+              <div class="media">
+                <a href="{% url 'news_detail' news.id %}" class="media-left">
+                  <img src="{{ news.image.url }}" alt="{{ news.title }}" />
+                </a>
+                <div class="media-body">
+                  <a href="{% url 'news_detail' news.id %}" class="catg_title"
+                    >{{ news.title }}</a
+                  >
+                  <p>{{ news.short_description }}</p>
+                </div>
+              </div>
+            </li>
+            {% empty %}
+            <p>Bu kategoriyada hali yangiliklar mavjud emas.</p>
+            {% endfor %}
+          </ul>
         </div>
       </div>
+
+      <aside class="right_content">
+        <div class="single_sidebar">
+          <h2><span>Ommabop Yangiliklar</span></h2>
+          <ul class="spost_nav">
+            {% for post in popular_posts %}
+            <li>
+              <div class="media">
+                <a href="{% url 'news_detail' post.id %}" class="media-left">
+                  <img src="{{ post.image.url }}" alt="{{ post.title }}" />
+                </a>
+                <div class="media-body">
+                  <a href="{% url 'news_detail' post.id %}" class="catg_title"
+                    >{{ post.title }}</a
+                  >
+                </div>
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </aside>
     </section>
   </body>
 </html>

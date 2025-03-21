@@ -1,155 +1,181 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
-  <head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ news.title }}</title>
-    <meta charset="utf-8" />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{% static 'assets/css/style.css' %}"
-    />
+
+    <!-- Bootstrap va boshqa style'lar -->
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
+    
     <style>
-      /* Asosiy container */
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f8f9fa;
-        margin: 0;
-        padding: 0;
-      }
+        /* Asosiy sahifa */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
 
-      /* Header */
-      header {
-        background-color: #222;
-        color: white;
-        padding: 15px;
-        text-align: center;
-      }
+        /* Header */
+        .header {
+            background: #222;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
 
-      /* Navbar */
-      nav ul {
-        list-style-type: none;
-        padding: 0;
-        text-align: center;
-        background: #333;
-      }
+        /* Yangilik sarlavhasi */
+        .news-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
 
-      nav ul li {
-        display: inline;
-        margin: 0 15px;
-      }
+        /* Yangilik rasmi */
+        .news-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
 
-      nav ul li a {
-        text-decoration: none;
-        color: white;
-        font-weight: bold;
-      }
+        /* Yangilik matni */
+        .news-content {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #444;
+        }
 
-      /* Asosiy yangilik maqolasi */
-      main {
-        display: flex;
-        flex-wrap: wrap;
-        max-width: 900px;
-        margin: 20px auto;
-        padding: 20px;
-        background: white;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        border-radius: 5px;
-      }
+        /* E'lon qilingan vaqt */
+        .news-meta {
+            font-size: 14px;
+            color: gray;
+            margin-bottom: 20px;
+        }
 
-      /* Yangilik sarlavhasi */
-      article h2 {
-        color: #222;
-      }
+        /* Latest Posts */
+        .latest-posts {
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-      /* Rasm */
-      article img {
-        width: 100%;
-        max-height: 400px;
-        object-fit: cover;
-        border-radius: 5px;
-        margin-bottom: 15px;
-      }
+        .latest-posts h3 {
+            background: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
 
-      /* Matn */
-      article p {
-        font-size: 16px;
-        line-height: 1.6;
-        color: #555;
-      }
+        .latest-posts ul {
+            list-style: none;
+            padding: 0;
+        }
 
-      /* E'lon qilingan vaqt */
-      article small {
-        color: gray;
-      }
+        .latest-posts ul li {
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
 
-      /* Latest post (yon tarafdagi maqolalar) */
-      aside {
-        width: 100%;
-        margin-top: 20px;
-      }
+        .latest-posts ul li a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
 
-      aside h3 {
-        background: #333;
-        color: white;
-        padding: 10px;
-        text-align: center;
-        border-radius: 5px;
-      }
+        .latest-posts ul li a:hover {
+            text-decoration: underline;
+        }
 
-      aside ul {
-        list-style: none;
-        padding: 0;
-      }
-
-      aside ul li {
-        padding: 10px;
-        border-bottom: 1px solid #ddd;
-      }
-
-      aside ul li a {
-        text-decoration: none;
-        color: #007bff;
-        font-weight: bold;
-      }
-
-      aside ul li a:hover {
-        text-decoration: underline;
-      }
+        /* Footer */
+        .footer {
+            background: #222;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-top: 40px;
+        }
     </style>
-  </head>
-  <body>
-    <header>
-      <h1>NewsFeed</h1>
-      <nav>
-        <ul>
-          <li><a href="{% url 'home' %}">Home</a></li>
-          
-        </ul>
+</head>
+<body>
+
+    <section id="navArea">
+      <nav class="navbar navbar-inverse" role="navigation">
+        <div class="navbar-header">
+          <button
+            type="button"
+            class="navbar-toggle collapsed"
+            data-toggle="collapse"
+            data-target="#navbar"
+            aria-expanded="false"
+            aria-controls="navbar"
+          >
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav main_nav">
+            <li class="active">
+              <a href="{% url 'home' %}"
+                ><span class="fa fa-home desktop-home"></span
+                ><span class="mobile-show">Home</span></a
+              >
+            </li>
+            <li >
+                {% for category in categories %} {% if category.is_active %}
+                <li>
+                  <a href="{% url 'category_info' category.id %}"
+                    >{{ category.name }}</a
+                  >
+                </li>
+                {% endif %} {% endfor %}
+              
+            </li>
+          </ul>
+        </div>
       </nav>
-    </header>
+    </section>
 
-    <main>
-      <article>
-        <h2>{{ news.title }}</h2>
-        <img
-          src="{{ news.image.url|default:'/media/default.jpg' }}"
-          alt="News Image"
-        />
-        <p>{{ news.content }}</p>
-        <p><small>Published on: {{ news.published_at }}</small></p>
-      </article>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="news-detail">
+                    <h2 class="news-title">{{ news.title }}</h2>
+                    <p class="news-meta">Published on: {{ news.published_at }}</p>
+                    <img src="{{ news.image.url|default:'/media/default.jpg' }}" alt="News Image" class="news-image">
+                    <p class="news-content">{{ news.content }}</p>
+                </div>
+            </div>
 
-      <aside>
-        <h3>Latest Posts</h3>
-        <ul>
-          {% for post in latest_posts %}
-          <li>
-            <a href="{% url 'news_detail' post.id %}">{{ post.title }}</a>
-          </li>
-          {% endfor %}
-        </ul>
-      </aside>
-    </main>
-  </body>
+            <div class="col-lg-4">
+                <div class="latest-posts">
+                    <h3>Latest Posts</h3>
+                    <ul>
+                        {% for post in latest_posts %}
+                        <li>
+                            <a href="{% url 'news_detail' post.id %}">{{ post.title }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2025 NewsFeed. All rights reserved.</p>
+    </footer>
+
+    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+</body>
 </html>

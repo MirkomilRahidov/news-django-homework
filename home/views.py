@@ -1,7 +1,7 @@
-# views.py
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404,redirect
 from .models import Category, News
 from datetime import date
+from .forms import ContactMessageForm
 
 def home(request):
     categories = Category.objects.all() 
@@ -37,3 +37,13 @@ def category_info(request, category_id):
         'popular_posts': popular_posts,
     }
     return render(request, 'c_details.html', context)
+
+def contact_view(request):
+    if request.method == "POST":
+        form = ContactMessageForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('contact')
+    else:
+        form = ContactMessageForm()
+    return render(request, 'contact.html', {'form': form})

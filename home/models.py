@@ -27,3 +27,12 @@ class News(models.Model):
     
     class Meta:
         ordering = ['-created_at']
+from django.db import models
+
+class ContactMessage(models.Model):
+    name = models.CharField(max_length=255)
+    text = models.TextField()
+    is_read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name
