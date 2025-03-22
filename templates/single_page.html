@@ -6,34 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ news.title }}</title>
 
-    <!-- Bootstrap va boshqa style'lar -->
-    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/font-awesome.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
-    
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/font-awesome.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/theme.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}" />
+
     <style>
-        /* Asosiy sahifa */
         body {
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
         }
-
-        /* Header */
-        .header {
-            background: #222;
-            color: white;
-            padding: 20px 0;
-            text-align: center;
-        }
-
-        /* Yangilik sarlavhasi */
         .news-title {
             font-size: 28px;
             font-weight: bold;
             margin-bottom: 10px;
         }
-
-        /* Yangilik rasmi */
         .news-image {
             width: 100%;
             max-height: 400px;
@@ -41,129 +28,106 @@
             border-radius: 10px;
             margin-bottom: 20px;
         }
-
-        /* Yangilik matni */
         .news-content {
             font-size: 16px;
             line-height: 1.8;
             color: #444;
         }
-
-        /* E'lon qilingan vaqt */
         .news-meta {
             font-size: 14px;
             color: gray;
             margin-bottom: 20px;
         }
-
-        /* Latest Posts */
-        .latest-posts {
+        .comment-box {
             background: #fff;
             padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .latest-posts h3 {
-            background: #333;
-            color: white;
-            padding: 10px;
-            text-align: center;
             border-radius: 5px;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
         }
-
-        .latest-posts ul {
-            list-style: none;
-            padding: 0;
+        .comment-box strong {
+            color: #333;
         }
-
-        .latest-posts ul li {
-            padding: 10px 0;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .latest-posts ul li a {
-            text-decoration: none;
-            color: #007bff;
-            font-weight: bold;
-        }
-
-        .latest-posts ul li a:hover {
-            text-decoration: underline;
-        }
-
-        /* Footer */
-        .footer {
-            background: #222;
-            color: white;
-            padding: 20px;
-            text-align: center;
-            margin-top: 40px;
+        .comment-box p {
+            margin: 5px 0 0;
+            color: #555;
         }
     </style>
 </head>
 <body>
 
     <section id="navArea">
-      <nav class="navbar navbar-inverse" role="navigation">
-        <div class="navbar-header">
-          <button
-            type="button"
-            class="navbar-toggle collapsed"
-            data-toggle="collapse"
-            data-target="#navbar"
-            aria-expanded="false"
-            aria-controls="navbar"
-          >
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav main_nav">
-            <li class="active">
-              <a href="{% url 'home' %}"
-                ><span class="fa fa-home desktop-home"></span
-                ><span class="mobile-show">Home</span></a
-              >
-            </li>
-            <li >
-                {% for category in categories %} {% if category.is_active %}
-                <li>
-                  <a href="{% url 'category_info' category.id %}"
-                    >{{ category.name }}</a
-                  >
-                </li>
-                {% endif %} {% endfor %}
-              
-            </li>
-          </ul>
-        </div>
-      </nav>
+        <nav class="navbar navbar-inverse" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav main_nav">
+                    <li class="active">
+                        <a href="{% url 'home' %}"><span class="fa fa-home"></span> Home</a>
+                    </li>
+                    {% for category in categories %}
+                        {% if category.is_active %}
+                            <li><a href="{% url 'category_info' category.id %}">{{ category.name }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </nav>
     </section>
 
     <div class="container mt-4">
         <div class="row">
             <div class="col-lg-8">
-                <div class="news-detail">
-                    <h2 class="news-title">{{ news.title }}</h2>
-                    <p class="news-meta">Published on: {{ news.published_at }}</p>
-                    <img src="{{ news.image.url|default:'/media/default.jpg' }}" alt="News Image" class="news-image">
-                    <p class="news-content">{{ news.content }}</p>
+                <h2 class="news-title">{{ news.title }}</h2>
+                <p class="news-meta">Published on: {{ news.published_at }}</p>
+                <img src="{{ news.image.url|default:'/media/default.jpg' }}" alt="News Image" class="news-image">
+                <p class="news-content">{{ news.content }}</p>
+
+                <div class="comments-section mt-5">
+                    <h3>Comments</h3>
+
+                    {% for comment in comments %}
+                        <div class="comment-box">
+                            <strong>{{ comment.user.username }}</strong> - 
+                            <span>{{ comment.created_at|date:"M d, Y H:i" }}</span>
+                            <p>{{ comment.content }}</p>
+                        </div>
+                    {% empty %}
+                        <p>No comments yet. Be the first to comment!</p>
+                    {% endfor %}
+
+                    {% if user.is_authenticated %}
+                        <h4>Leave a Comment</h4>
+                        <form method="POST">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    {% else %}
+                        <p>You must be <a href="{% url 'users:login' %}">logged in</a> to comment.</p>
+                    {% endif %}
                 </div>
             </div>
 
             <div class="col-lg-4">
-                <div class="latest-posts">
-                    <h3>Latest Posts</h3>
-                    <ul>
-                        {% for post in latest_posts %}
-                        <li>
-                            <a href="{% url 'news_detail' post.id %}">{{ post.title }}</a>
-                        </li>
+                <div class="latest_post">
+                    <h2><span>Latest posts</span></h2>
+                    <ul class="latest_postnav">
+                        {% for news in latest_posts %}
+                            <li>
+                                <a href="{% url 'news_detail' news.id %}" class="media-left">
+                                    <img src="{{ news.image.url|default:'/media/default.jpg' }}" alt="News Image">
+                                </a>
+                                <div class="media-body">
+                                    <a href="{% url 'news_detail' news.id %}" class="catg_title">{{ news.title }}</a>
+                                </div>
+                            </li>
                         {% endfor %}
                     </ul>
                 </div>

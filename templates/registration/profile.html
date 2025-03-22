@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            width: 300px;
+            margin: auto;
+            margin-top: 10%;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #007bff;
+            margin-bottom: 10px;
+        }
+        .button {
+            background: #007bff;
+            color: white;
+            padding: 10px;
+            text-decoration: none;
+            border-radius: 4px;
+            display: inline-block;
+            margin: 10px;
+        }
+        .button:hover {
+            background: #0056b3;
+        }
+        .comments-section {
+            text-align: left;
+            margin-top: 20px;
+        }
+        .comment {
+            background: #f8f8f8;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .comment p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        {% if user.avatar %}
+            <img src="{{ user.avatar.url }}" alt="Profile Image" class="avatar">
+        {% else %}
+            <img src="{{ MEDIA_URL }}default.jpg" alt="Default Profile Image" class="avatar">
+        {% endif %}
+
+        <h2>Welcome, {{ user.username }}</h2>
+        <p><strong>First Name:</strong> {{ user.first_name }}</p>
+        <p><strong>Last Name:</strong> {{ user.last_name }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Joined:</strong> {{ user.date_joined|date:"Y-m-d" }}</p>
+
+        <a class="btn" href="{% url 'users:profile_update' %}">✏️ Update Profile</a>
+        <a class="button" href="{% url 'home' %}">🏠 Home</a>
+        <a class="button" href="{% url 'users:logout' %}">🚪 Logout</a>
+
+        <div class="comments-section">
+            <h3>Your Comments</h3>
+            {% if comments %}
+                {% for comment in comments %}
+                    <div class="comment">
+                        <p><strong>Post:</strong>
+                            <a href="{% url 'news_detail' comment.post.id %}">{{ comment.post.title }}</a>
+                        </p>
+                        <p><strong>Comment:</strong> {{ comment.content }}</p>
+                        <p><strong>Posted:</strong> {{ comment.created_at|date:"Y-m-d H:i" }}</p>
+                        <a href="{% url 'users:comment_update' comment.id %}" class="button">✏️ Edit</a>
+                    </div>
+                    <hr>
+                {% endfor %}
+            {% else %}
+                <p>You have not commented yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

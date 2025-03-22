@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Comment</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background: #f4f4f4; }
+        .container { background: white; padding: 20px; width: 300px; margin: auto; margin-top: 10%; border-radius: 8px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); }
+        .button { background: #007bff; color: white; padding: 10px; text-decoration: none; border-radius: 4px; display: inline-block; margin: 10px; }
+        .button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Edit Comment</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="button">💾 Save</button>
+        </form>
+        <a href="{% url 'users:profile' %}" class="button">⬅️ Back</a>
+    </div>
+</body>
+</html>

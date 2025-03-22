@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Logout | NewsFeed</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'assets/css/bootstrap.min.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'assets/css/font-awesome.min.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'assets/css/animate.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'assets/css/font.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'assets/css/li-scroller.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'assets/css/slick.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'assets/css/jquery.fancybox.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'assets/css/theme.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'assets/css/style.css' %}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <header id="header">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="header_top">
+              <div class="header_top_left">
+                <ul class="top_nav">
+                  <li>
+                    <a
+                      href="{% url 'home' %}"
+                      style="
+                        text-decoration: underline 2px red;
+                        padding: 10px;
+                        font-size: 2rem;
+                      "
+                      >Home</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="{% url 'contact' %}"
+                      style="padding: 10px; font-size: 2rem"
+                      >Contact</a
+                    >
+                  </li>
+                </ul>
+              </div>
+              <div class="header_top_right">
+                <p>{{ current_date }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="header_bottom">
+              <div class="logo_area">
+                <a href="{% url 'home' %}" class="logo"
+                  ><img src="{% static 'images/logo.jpg' %}" alt=""
+                /></a>
+              </div>
+              <div class="add_banner">
+                <a href="#"
+                  ><img
+                    src="{% static 'images/addbanner_728x90_V1.jpg' %}"
+                    alt=""
+                /></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="auth-container">
+        <h2>Are you sure you want to logout?</h2>
+        <form method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger">Logout</button>
+          <a href="{% url 'home' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

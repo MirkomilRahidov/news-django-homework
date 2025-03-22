@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            width: 300px;
+            margin: auto;
+            margin-top: 5%;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #007bff;
+            margin-bottom: 10px;
+        }
+        input, button {
+            width: 90%;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+        button:hover { background: #0056b3; }
+        .btn {
+            display: inline-block;
+            padding: 10px;
+            background: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin: 10px 5px;
+        }
+        .btn:hover { background: #218838; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Update Profile</h2>
+
+        {% if user.avatar %}
+            <img src="{{ user.avatar.url }}" alt="Profile Image" class="avatar">
+        {% else %}
+            <img src="{{ MEDIA_URL }}default.jpg" alt="Default Profile Image" class="avatar">
+        {% endif %}
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <input type="text" name="first_name" value="{{ user.first_name }}" placeholder="First Name" required><br>
+            <input type="text" name="last_name" value="{{ user.last_name }}" placeholder="Last Name" required><br>
+            <input type="email" name="email" value="{{ user.email }}" placeholder="Email" required><br>
+            <input type="file" name="avatar"><br>
+            
+            <button type="submit">Save Changes</button>
+        </form>
+
+        <a class="btn" href="{% url 'home' %}">🏠 Home</a>
+        <a class="btn" href="{% url 'users:logout' %}" style="background: #dc3545;">🚪 Logout</a>
+    </div>
+</body>
+</html>

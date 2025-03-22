@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404,redirect
 from .models import Category, News
 from datetime import date
-from .forms import ContactMessageForm
-
+from .forms import ContactMessageForm,CommentForm
+from users.models import Comment
 def home(request):
     categories = Category.objects.all() 
     latest_news = News.objects.order_by('-created_at')[:5]
@@ -23,9 +23,25 @@ def home(request):
 
 def news_detail(request, id):
     news = get_object_or_404(News, id=id)
-    latest_posts = News.objects.order_by('-created_at')[:5]
-    return render(request, 'single_page.html', {'news': news, 'latest_posts': latest_posts})
-   
+    comments = Comment.objects.filter(post=news).order_by('-created_at') 
+
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = news  
+            comment.user = request.user  
+            comment.save()
+            return redirect('news_detail', id=id) 
+
+    else:
+        form = CommentForm()
+
+    return render(request, 'single_page.html', {
+        'news': news,
+        'comments': comments,
+        'form': form
+    })
 
 def category_info(request, category_id):
     category = get_object_or_404(Category, id=category_id)
